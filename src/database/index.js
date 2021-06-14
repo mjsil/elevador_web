@@ -7,6 +7,7 @@ import Clients from '../app/models/Clients';
 import Elevators from '../app/models/Elevators';
 import ElevatorsModels from '../app/models/ElevatorsModels';
 import ElevatorsBrands from '../app/models/ElevatorsBrands';
+import ElevatorsChecklists from '../app/models/ElevatorsChecklists';
 import Checklists from '../app/models/Checklists';
 import ChecklistsQuestions from '../app/models/ChecklistsQuestions';
 import ChecklistsAnswers from '../app/models/ChecklistsAnswers';
@@ -22,11 +23,12 @@ const models = [
     Elevators,
     ElevatorsModels,
     ElevatorsBrands,
+    ElevatorsChecklists,
     Checklists,
     ChecklistsQuestions,
     ChecklistsAnswers,
     ChecklistsNotes,
-    ChecklistsImages
+    ChecklistsImages,
 ];
 
 class Database {
