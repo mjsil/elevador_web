@@ -1,81 +1,61 @@
 import { Router } from 'express';
-import multer from 'multer';
-import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
-import ClientController from './app/controllers/ClientController';
-import ElevatorController from './app/controllers/ElevatorController';
-import ChecklistController from './app/controllers/ChecklistController';
-import HouseMachineCheckController from './app/controllers/HouseMachineCheckController';
-import HouseMachineMessageController from './app/controllers/HouseMachineMessageController';
-import HouseMachineImageController from './app/controllers/HouseMachineImageController';
-import WellCheckController from './app/controllers/WellCheckController';
-import WellMessageController from './app/controllers/WellMessageController';
-import WellImageController from './app/controllers/WellImageController';
-import IndoorCabinCheckController from './app/controllers/IndoorCabinCheckController';
-import IndoorCabinMessageController from './app/controllers/IndoorCabinMessageController';
-import IndoorCabinImageController from './app/controllers/IndoorCabinImageController';
-import CabinOnTopCheckController from './app/controllers/CabinOnTopCheckController';
-import CabinOnTopMessageController from './app/controllers/CabinOnTopMessageController';
-import CabinOnTopImageController from './app/controllers/CabinOnTopImageController';
-import DoorOperatorCheckController from './app/controllers/DoorOperatorCheckController';
-import DoorOperatorMessageController from './app/controllers/DoorOperatorMessageController';
-import DoorOperatorImageController from './app/controllers/DoorOperatorImageController';
-import UploadImageController from './app/controllers/UploadImageController';
+import SupervisorsController from './app/controllers/SupervisorsController';
+import TechniciansController from './app/controllers/TechniciansController';
+import ClientsController from './app/controllers/ClientsController';
+import CompaniesController from './app/controllers/CompaniesController';
+import ElevatorsController from './app/controllers/ElevatorsController';
+import ElevatorsModelsController from './app/controllers/ElevatorsModelsController';
+import ElevatorsBrandsController from './app/controllers/ElevatorsBrandsController';
+import ElevatorsChecklistsController from './app/controllers/ElevatorsChecklistsController';
+import ChecklistsController from './app/controllers/ChecklistsController';
+import ChecklistsQuestionsController from './app/controllers/ChecklistsQuestionsController';
+import ChecklistsAnswersController from './app/controllers/ChecklistsAnswersController';
+import ChecklistsImagesController from './app/controllers/ChecklistsImagesController';
+import ChecklistsNotesController from './app/controllers/ChecklistsNotesController';
 
 import cors from 'cors';
 
 import autMiddleware from './app/middlewares/auth';
-import multerConfig from './config/multer';
 
 const routes = new Router();
 
 routes.use(cors());
 
-routes.post('/create/user', UserController.store);
+routes.post('/create/supervisor', SupervisorsController.store);
 
 routes.post('/session', SessionController.store);
 
 routes.use(autMiddleware);
 
-routes.post('/create/client', ClientController.store);
-routes.get('/clients', ClientController.index);
+routes.post('/create/technician', TechniciansController.store);
 
-routes.post('/create/elevator', ElevatorController.store);
-routes.get('/elevators/:id_client', ElevatorController.index);
+routes.post('/create/client', ClientsController.store);
+routes.get('/clients/:id_technician', ClientsController.index);
 
-routes.post('/create/ckecklist', ChecklistController.store);
-routes.get('/ckecklist/:id_elevator', ChecklistController.index);
+routes.post('/create/companie', CompaniesController.store);
 
-routes.post('/create/house/machine/check', HouseMachineCheckController.store);
-routes.post(
-    '/create/house/machine/message',
-    HouseMachineMessageController.store
-);
-routes.post('/create/house/machine/image', HouseMachineImageController.store);
+routes.post('/create/elevator', ElevatorsController.store);
+routes.get('/elevators/:id_client', ElevatorsController.index);
 
-routes.post('/create/well/check', WellCheckController.store);
-routes.post('/create/well/message', WellMessageController.store);
-routes.post('/create/well/image', WellImageController.store);
+routes.post('/create/elevators/model', ElevatorsModelsController.store);
+routes.get('/elevators/models', ElevatorsModelsController.index);
 
-routes.post('/create/indoor/cabin/check', IndoorCabinCheckController.store);
-routes.post('/create/indoor/cabin/message', IndoorCabinMessageController.store);
-routes.post('/create/indoor/cabin/image', IndoorCabinImageController.store);
+routes.post('/create/elevators/brand', ElevatorsBrandsController.store);
+routes.get('/elevators/brands', ElevatorsBrandsController.index);
 
-routes.post('/create/cabin/top/check', CabinOnTopCheckController.store);
-routes.post('/create/cabin/top/message', CabinOnTopMessageController.store);
-routes.post('/create/cabin/top/image', CabinOnTopImageController.store);
+routes.post('/create/elevators/checklists', ElevatorsChecklistsController.store);
+routes.get('/elevators/checklists/:id_elevator', ElevatorsChecklistsController.index);
+routes.get('/elevators/checklist/:ids', ElevatorsChecklistsController.show);
 
-routes.post('/create/door/operator/check', DoorOperatorCheckController.store);
-routes.post(
-    '/create/door/operator/message',
-    DoorOperatorMessageController.store
-);
-routes.post('/create/door/operator/image', DoorOperatorImageController.store);
+routes.post('/create/checklist', ChecklistsController.store);
 
-routes.post(
-    '/upload/image',
-    multer(multerConfig).single('file'),
-    UploadImageController.store
-);
+routes.post('/create/checklists/question', ChecklistsQuestionsController.store);
+
+routes.post('/create/checklists/answer', ChecklistsAnswersController.store);
+
+routes.post('/create/checklists/image', ChecklistsImagesController.store);
+
+routes.post('/create/checklists/note', ChecklistsNotesController.store);
 
 export default routes;

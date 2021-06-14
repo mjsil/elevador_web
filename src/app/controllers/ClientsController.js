@@ -4,7 +4,7 @@ import Technicians from '../models/Technicians';
 
 class ClientsController {
     async index(req, res) {
-        const { id_technician } = req.body;
+        const { id_technician } = req.params;
 
         let user;
 

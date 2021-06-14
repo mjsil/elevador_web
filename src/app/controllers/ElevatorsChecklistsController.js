@@ -4,7 +4,9 @@ import ElevatorsChecklists from '../models/ElevatorsChecklists';
 
 class ElevatorsChecklistsController {
     async show(req, res) {
-        const { id_elevator, id_checklist } = req.body;
+        const { ids } = req.params;
+
+        const [id_elevator, id_checklist] = ids.split(' ');
 
         const technicianExits = await Technicians.findOne({
             where: {
@@ -53,7 +55,7 @@ class ElevatorsChecklistsController {
     }
 
     async index(req, res) {
-        const { id_elevator } = req.body;
+        const { id_elevator } = req.params;
 
         const technicianExits = await Technicians.findOne({
             where: {
