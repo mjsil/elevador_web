@@ -3,29 +3,29 @@ import Supervisors from '../models/Supervisors';
 
 class TechniciansController {
     async store(req, res) {
-        const { email, id_supervisor } = req.body;
-
-        const emailExits = await Technicians.findOne({
-            where: {
-                email,
-            },
-        });
-
-        if (emailExits) {
-            return res.status(400).json({
-                error: 'User already exists',
-            });
-        }
+        const { email } = req.body;
 
         const supervisorExits = await Supervisors.findOne({
             where: {
-                id: id_supervisor,
+                id: req.userId,
             },
         });
 
         if (!supervisorExits) {
             return res.status(401).json({
-                error: 'Suoervisor not found',
+                error: 'Supervisor not found',
+            });
+        }
+
+        const technicianExits = await Technicians.findOne({
+            where: {
+                email,
+            },
+        });
+
+        if (technicianExits) {
+            return res.status(400).json({
+                error: 'User already exists',
             });
         }
 
@@ -35,7 +35,7 @@ class TechniciansController {
             id,
             name,
             email,
-            supervisor: id_supervisor
+            supervisor: supervisorExits
         });
     }
 }

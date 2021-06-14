@@ -1,23 +1,36 @@
 import Clients from '../models/Clients';
+import Supervisors from '../models/Supervisors';
 import Technicians from '../models/Technicians';
 
 class ClientsController {
     async index(req, res) {
-        const technicianExits = await Technicians.findOne({
-            where: {
-                id: req.userId,
-            },
-        });
+        const { id_technician } = req.body;
 
-        if (!technicianExits) {
+        let user;
+
+        if (id_technician) {
+            user = await Supervisors.findOne({
+                where: {
+                    id: req.userId,
+                },
+            });
+        }else {
+            user = await Technicians.findOne({
+                where: {
+                    id: req.userId,
+                },
+            });
+        }
+
+        if (!user) {
             return res.status(401).json({
-                error: 'Technician not found',
+                error: 'User not found',
             });
         }
 
         const allClients = await Clients.findAll({
             where: {
-                id_technician: req.userId,
+                id_technician: id_technician ? id_technician : req.userId,
             },
         });
 
@@ -25,17 +38,27 @@ class ClientsController {
     }
 
     async store(req, res) {
-        const { email } = req.body;
+        const { email, id_technician } = req.body;
 
-        const technicianExits = await Technicians.findOne({
-            where: {
-                id: req.userId,
-            },
-        });
+        let user;
 
-        if (!technicianExits) {
+        if (id_technician) {
+            user = await Supervisors.findOne({
+                where: {
+                    id: req.userId,
+                },
+            });
+        }else {
+            user = await Technicians.findOne({
+                where: {
+                    id: req.userId,
+                },
+            });
+        }
+
+        if (!user) {
             return res.status(401).json({
-                error: 'Technician not found',
+                error: 'User not found',
             });
         }
 
@@ -60,7 +83,7 @@ class ClientsController {
             responsible,
         } = await Client.create({
             ...req.body,
-            id_technician: req.userId,
+            id_technician: id_technician ? id_technician : req.userId,
         });
 
         return res.status(200).json({
@@ -70,8 +93,7 @@ class ClientsController {
             city,
             state,
             responsible,
-            email,
-            technician: technicianExits
+            email
         });
     }
 }

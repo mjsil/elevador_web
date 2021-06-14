@@ -20,6 +20,18 @@ class ElevatorController {
             });
         }
 
+        const clientExits = await Clients.findOne({
+            where: {
+                id: id_client,
+            },
+        });
+
+        if (!clientExits) {
+            return res.status(401).json({
+                error: 'Client not found',
+            });
+        }
+
         const allElevators = await Elevator.findAll({
             where: {
                 id_client,
@@ -31,6 +43,18 @@ class ElevatorController {
 
     async store(req, res) {
         const { id_client, id_model, id_brand } = req.body;
+
+        const technicianExits = await Technicians.findOne({
+            where: {
+                id: req.userId,
+            },
+        });
+
+        if (!technicianExits) {
+            return res.status(401).json({
+                error: 'Technician not found',
+            });
+        }
 
         const clientExits = await Clients.findOne({
             where: {
@@ -78,7 +102,7 @@ class ElevatorController {
             brand: brandExits,
             location,
             capacity,
-            stops
+            stops,
         });
     }
 }

@@ -1,7 +1,20 @@
 import ElevatorsModels from '../models/ElevatorsModels';
+import Technicians from '../models/Technicians';
 
 class ElevatorsModelsController {
     async index(req, res) {
+        const technicianExits = await Technicians.findOne({
+            where: {
+                id: req.userId,
+            },
+        });
+
+        if (!technicianExits) {
+            return res.status(401).json({
+                error: 'Technician not found',
+            });
+        }
+        
         const allElevatorsModels = await ElevatorsModels.findAll();
 
         return res.status(200).json(allElevatorsModels);
@@ -9,6 +22,18 @@ class ElevatorsModelsController {
 
     async store(req, res) {
         const { model } = req.body;
+
+        const technicianExits = await Technicians.findOne({
+            where: {
+                id: req.userId,
+            },
+        });
+
+        if (!technicianExits) {
+            return res.status(401).json({
+                error: 'Technician not found',
+            });
+        }
 
         const modelExits = await ElevatorsModels.findOne({
             where: {

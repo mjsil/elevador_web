@@ -6,6 +6,18 @@ class ElevatorsChecklistsController {
     async show(req, res) {
         const { id_elevator, id_checklist } = req.body;
 
+        const technicianExits = await Technicians.findOne({
+            where: {
+                id: req.userId,
+            },
+        });
+
+        if (!technicianExits) {
+            return res.status(401).json({
+                error: 'Technician not found',
+            });
+        }
+
         const elevatorExits = await Elevators.findOne({
             where: {
                 id: id_elevator,
@@ -43,6 +55,18 @@ class ElevatorsChecklistsController {
     async index(req, res) {
         const { id_elevator } = req.body;
 
+        const technicianExits = await Technicians.findOne({
+            where: {
+                id: req.userId,
+            },
+        });
+
+        if (!technicianExits) {
+            return res.status(401).json({
+                error: 'Technician not found',
+            });
+        }
+
         const elevatorExits = await Elevators.findOne({
             where: {
                 id: id_elevator,
@@ -66,6 +90,18 @@ class ElevatorsChecklistsController {
 
     async store(req, res) {
         const { id_elevator, id_checklist } = req.body;
+
+        const technicianExits = await Technicians.findOne({
+            where: {
+                id: req.userId,
+            },
+        });
+
+        if (!technicianExits) {
+            return res.status(401).json({
+                error: 'Technician not found',
+            });
+        }
 
         const elevatorExits = await Elevators.findOne({
             where: {
